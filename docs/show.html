@@ -37,7 +37,7 @@
     .label(label)
     .tooltip(false)
     .color(color)
-    .title(window.location.pathname.replace('.html', '').substr(1))
+    .title(window.location.pathname.replace('.html', '').replace('/difflame/', ''))
     .details(document.getElementById("details"));
 
   d3.json(window.location.pathname.replace('html', 'json'), function(error, data) {
