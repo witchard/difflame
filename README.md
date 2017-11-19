@@ -1,6 +1,8 @@
 difflame
 ========
 
+Checkout some examples: https://witchard.github.io/difflame/
+
 A lame tool for visualising diffs! This tool uses flamegraphs (http://www.brendangregg.com/flamegraphs.html) to visualise the differences within git repositories.
 
 * Installation: `pip install difflame`.
