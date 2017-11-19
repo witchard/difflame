@@ -73,7 +73,7 @@ def doServe(address, port, mode, serve_arg):
     def index(env, req):
         html = '''
 <head>
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/spiermar/d3-flame-graph@1.0.10/dist/d3.flameGraph.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/spiermar/d3-flame-graph@1.0.11/dist/d3.flameGraph.min.css">
 </head>
 <body>
   <div style='text-align: center'>'''
@@ -101,7 +101,7 @@ def doServe(address, port, mode, serve_arg):
   </div>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.10.0/d3.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/spiermar/d3-flame-graph@1.0.10/dist/d3.flameGraph.min.js"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/spiermar/d3-flame-graph@1.0.11/dist/d3.flameGraph.min.js"></script>
   <script type="text/javascript">
 
   function label(d) {
@@ -111,10 +111,24 @@ def doServe(address, port, mode, serve_arg):
            d3.format(".3f")(100 * (d.x1 - d.x0), 3) + "%)";
   }
 
+  function color(d) {
+    var h = 0;
+    var l = 100;
+    if(d.data.added > d.data.removed) {
+      h = 120;
+      l = 50 + (1-((d.data.added - d.data.removed) / d.data.value)) * 50;
+    } else {
+      h = 0;
+      l = 50 + (1-((d.data.removed - d.data.added) / d.data.value)) * 50;
+    }
+    return "hsl(" + h + ",100%," + l + "%)";
+  }
+
   var flamegraph = d3.flameGraph()
     .width(960)
     .label(label)
     .tooltip(false)
+    .color(color)
     .details(document.getElementById("details"));
 
   d3.json("data" + window.location.search, function(error, data) {
